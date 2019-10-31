@@ -5,7 +5,10 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QObject>
+#include <QPushButton>
+#include <QDialog>
 #include "grille.h"
+#include "personnaliserterrain.h"
 
 
 class fenetre : public QMainWindow
@@ -14,9 +17,18 @@ class fenetre : public QMainWindow
 public:
     fenetre(terrain&t);
 private:
+    terrain d_t;
     QMainWindow*d_win;
     grille*d_grille;
+    personnaliserTerrain*d_p;
     void vueCreer(terrain&t);
+
+
+private slots :
+    void OnDifficile();
+    void OnFacile();
+    void OnNormal();
+    void OnPerso();
 };
 
 #endif // FENETRE_H
