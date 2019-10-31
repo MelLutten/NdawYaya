@@ -6,9 +6,11 @@ terrain::terrain(){
 
 terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_taille1{taille1},d_taille2{taille2}
 {
-    d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
-    InitialisationGrille();
-    sauverTerrain("premiereSauvegarde.txt");
+    if(terrainOk()){
+         d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
+         InitialisationGrille();
+         sauverTerrain("premiereSauvegarde.txt");
+    }
 }
 
 void terrain::sauverTerrain(const std::string&nomFichier){
@@ -164,14 +166,30 @@ void terrain::InitialisationGrille(){
 
 }
 
+bool terrain::terrainOk(){
+
+    if(d_taille1*d_taille2>d_nbdebris+d_nbrobotFirstG+d_nbrobotSecondG+1){
+        return true;
+    }else{
+        return false;
+    }
+
+
+}
+
+//Fonction test
 void terrain::afficheGrille(){
 
-
-    for(int i=0;i<d_taille2;++i){
-        for(int j=0;j<d_taille1;++j){
-            std::cout<<d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)]<<"|";
+    if(terrainOk()){
+        for(int i=0;i<d_taille2;++i){
+            for(int j=0;j<d_taille1;++j){
+                std::cout<<d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)]<<"|";
+            }
+            std::cout<<std::endl;
         }
-        std::cout<<std::endl;
+    }else{
+        std::cout<<"T'as fait de la merde, recommence";
     }
+
 }
 
