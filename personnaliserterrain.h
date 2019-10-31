@@ -23,6 +23,9 @@ private:
 
     QLineEdit*editLigne;
     QLineEdit*editColonne;
+    QLineEdit*editDebris;
+    QLineEdit*editRobot1G;
+    QLineEdit*editRobot2G;
 
 private slots:
     void onValider();
