@@ -19,6 +19,7 @@ class terrain
      void sauverTerrain(const std::string&nomFichier);
      void changerTailleGrille(int taille1, int taille2);
      void InitialisationGrille();
+     bool terrainOk();
      void afficheGrille(); // fonction test
 
     private :
