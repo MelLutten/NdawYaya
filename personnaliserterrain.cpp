@@ -30,21 +30,21 @@ personnaliserTerrain::personnaliserTerrain(QWidget*parent):QDialog{parent}
 
     //Nb Debris
     auto labelDebris = new QLabel{"Nombre de débris : "};
-    auto editDebris = new QLineEdit{};
+    editDebris = new QLineEdit{};
     auto nbDebris = new QHBoxLayout{};
     nbDebris->addWidget(labelDebris);
     nbDebris->addWidget(editDebris);
 
     //Nb RobotFirstG
     auto labelRobot1G = new QLabel{"Nombre de robot 1ere G : "};
-    auto editRobot1G = new QLineEdit{};
+    editRobot1G = new QLineEdit{};
     auto nbRobot1G = new QHBoxLayout{};
     nbRobot1G->addWidget(labelRobot1G);
     nbRobot1G->addWidget(editRobot1G);
 
     //Nb RobotSecondG
     auto labelRobot2G = new QLabel{"Nombre de robot 2nd G : "};
-    auto editRobot2G = new QLineEdit{};
+    editRobot2G = new QLineEdit{};
     auto nbRobot2G = new QHBoxLayout{};
     nbRobot2G->addWidget(labelRobot2G);
     nbRobot2G->addWidget(editRobot2G);
@@ -71,10 +71,17 @@ terrain personnaliserTerrain::terr()const{
 void personnaliserTerrain::onValider(){
 
     QString tl = editLigne->text();
-    int nbcolonne = tl.toInt();
+    int nbligne = tl.toInt();
     QString tc = editColonne->text();
-    int nbligne = tc.toInt();
-    d_terr.changerTailleGrille(nbligne,nbcolonne);
+    int nbcolonne = tc.toInt();
+    QString td = editDebris->text();
+    int nbdebris = td.toInt();
+    QString tr1 = editRobot1G->text();
+    int nbrobot1G = tr1.toInt();
+    QString tr2 = editRobot2G->text();
+    int nbrobot2G = tr2.toInt();
+    d_terr.changerTailleGrille(nbcolonne,nbligne);
+    d_terr.InitialisationGrille(nbdebris,nbrobot1G,nbrobot2G);
     close();
 
 
