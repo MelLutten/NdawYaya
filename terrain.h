@@ -15,10 +15,13 @@ class terrain
      terrain(int nbdebris, int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2);
      int nbColonne()const;
      int nbLigne()const;
+     int nbDebris()const;
+     int nbRobot1G()const;
+     int nbRobot2G()const;
      void lireTerrain(const std::string&nomFichier);
      void sauverTerrain(const std::string&nomFichier);
      void changerTailleGrille(int taille1, int taille2);
-     void InitialisationGrille();
+     void InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G);
      bool terrainOk();
      void afficheGrille(); // fonction test
 
