@@ -6,30 +6,32 @@ terrain::terrain(){
 
 terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_taille1{taille1},d_taille2{taille2}
 {
+    d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
+    InitialisationGrille();
     sauverTerrain("premiereSauvegarde.txt");
 }
 
 void terrain::sauverTerrain(const std::string&nomFichier){
 
     std::ofstream f (nomFichier, std::ofstream::out);
-    f << d_nbdebris << ","<<d_nbrobotFirstG<<","<<d_nbrobotSecondG<<","<<d_taille1<<","<<d_taille2;
+    f << d_nbdebris << "," << d_nbrobotFirstG << "," << d_nbrobotSecondG << "," << d_taille1 << "," << d_taille2;
     f.close();
 
 }
 
-int terrain::taille1()const{
+int terrain::nbColonne()const{
     return d_taille1;
 }
 
-int terrain::taille2()const{
+int terrain::nbLigne()const{
     return d_taille2;
 }
 
 void terrain::lireTerrain(const std::string&nomFichier)
 {
-     std::ifstream f(nomFichier);
-     char c;
-     f >> d_nbdebris >> c >> d_nbrobotFirstG >> c >> d_nbrobotSecondG >> c >> d_taille1 >> c >> d_taille2;
+    std::ifstream f(nomFichier);
+    char c;
+    f >> d_nbdebris >> c >> d_nbrobotFirstG >> c >> d_nbrobotSecondG >> c >> d_taille1 >> c >> d_taille2;
 }
 
 void terrain::changerTailleGrille (int taille1, int taille2){
@@ -37,4 +39,120 @@ void terrain::changerTailleGrille (int taille1, int taille2){
  d_taille1 = taille1;
  d_taille2 = taille2;
 
+
+
 }
+
+void terrain::InitialisationGrille(){
+
+    std::vector<int> V;
+    V.resize(5);
+    for(int i=0;i<static_cast<int>(V.size());++i){
+        V[static_cast<unsigned>(i)]=i;
+    }
+
+    int compteurJoueur = 0;
+    int compteurRobot1G = 0;
+    int compteurRobot2G = 0;
+    int compteurDebris = 0;
+
+
+
+    for(int i=1;i<d_taille2;++i){
+        for(int j=1;j<d_taille1;++j){
+
+            int indice = rand()%static_cast<int>(V.size());
+            int nbalea = V[static_cast<unsigned>(indice)];
+
+             d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)] = nbalea;
+
+            if(nbalea==1){++compteurJoueur;}
+            if(nbalea==2){++compteurRobot1G;}
+            if(nbalea==3){++compteurRobot2G;}
+            if(nbalea==4){++compteurDebris;}
+
+
+
+            if(compteurRobot1G==d_nbrobotFirstG){
+
+                for(int g=0;g<static_cast<int>(V.size());++g){
+
+                    if(V[static_cast<unsigned>(g)]==2){
+                        for(int r=g;r<static_cast<int>(V.size());++r){
+                            V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+
+                        }
+                    }
+                }
+
+                 V.resize(V.size()-1);
+                 compteurRobot1G = 6;
+            }
+            if(compteurRobot2G==d_nbrobotSecondG){
+
+                for(int g=0;g<static_cast<int>(V.size());++g){
+
+                    if(V[static_cast<unsigned>(g)]==3){
+                        for(int r=g;r<static_cast<int>(V.size());++r){
+                            V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+
+                        }
+                    }
+                }
+
+                 V.resize(V.size()-1);
+                 compteurRobot2G = 6;
+
+
+            }
+            if(compteurDebris==d_nbdebris){
+
+                for(int g=0;g<static_cast<int>(V.size());++g){
+
+                    if(V[static_cast<unsigned>(g)]==4){
+                        for(int r=g;r<static_cast<int>(V.size());++r){
+                            V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+
+                        }
+                    }
+                }
+
+                 V.resize(V.size()-1);
+                 compteurDebris = 6;
+
+            }
+
+            if(compteurJoueur==1){
+
+                for(int g=0;g<static_cast<int>(V.size());++g){
+
+                    if(V[static_cast<unsigned>(g)]==1){
+                        for(int r=g;r<static_cast<int>(V.size());++r){
+                            V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+
+                        }
+                    }
+                }
+
+
+                 V.resize(V.size()-1);
+                 compteurJoueur = 6;
+
+            }
+
+        }
+    }
+
+}
+
+void terrain::afficheGrille(){
+
+
+    for(int i=0;i<d_taille2;++i){
+        for(int j=0;j<d_taille1;++j){
+            std::cout<<d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)]<<"|";
+        }
+        std::cout<<std::endl;
+    }
+}
+
