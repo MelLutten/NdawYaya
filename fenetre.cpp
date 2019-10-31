@@ -68,16 +68,22 @@ void fenetre::vueCreer(terrain&t){
 
 void fenetre::OnDifficile(){
     d_t.changerTailleGrille(8,8);
+    d_t.InitialisationGrille(3,3,3);
+    d_t.afficheGrille(); //Test : affichage console
     vueCreer(d_t);
 }
 
 void fenetre::OnNormal(){
     d_t.changerTailleGrille(5,5);
+    d_t.InitialisationGrille(2,2,2);
+    d_t.afficheGrille(); //Test : affichage console
     vueCreer(d_t);
 }
 
 void fenetre::OnFacile(){
     d_t.changerTailleGrille(4,4);
+    d_t.InitialisationGrille(1,1,1);
+    d_t.afficheGrille(); //Test affichage console
     vueCreer(d_t);
 }
 
@@ -85,6 +91,7 @@ void fenetre::OnPerso(){
 
     d_p->exec();
     d_t = d_p->terr();
+    d_t.afficheGrille(); //Test affichage console
     vueCreer(d_t);
 
 
