@@ -21,8 +21,8 @@ void grille::paintEvent(QPaintEvent *e)
     QBrush brush1(Qt::black, Qt::SolidPattern);
     QBrush brush2(Qt::white, Qt::SolidPattern);
 
-    for(int i=0;i<d_terrain.taille1();++i){
-        for(int j=0;j<d_terrain.taille2();++j){
+    for(int i=0;i<d_terrain.nbLigne();++i){
+        for(int j=0;j<d_terrain.nbColonne();++j){
 
             QRect r1(left+101, top, width, height);
 
