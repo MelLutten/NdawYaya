@@ -11,14 +11,15 @@ fenetre::fenetre(terrain&t):d_t{t}, d_win{this}
 void fenetre::vueCreer(terrain&t){
 
     setWindowTitle("HI ROBOTS");
-
+    setStyleSheet("QMainWindow{background:#353535;}");
+    
     //Terrain
     d_grille = new grille{t};
 
     //Titre
     auto label = new QLabel{"HI ROBOTS"};
     label->setFixedSize(maximumWidth(),60);
-    label->setStyleSheet("QLabel { background-color : #2F2F2F; color : #2B71D9; font-size:20px; }");
+    label->setStyleSheet("QLabel { background-color : #2F2F2F; color : white; font-size:20px; }");
     label->setAlignment(Qt::AlignCenter);
 
     //Boutons niveau
@@ -27,10 +28,10 @@ void fenetre::vueCreer(terrain&t){
     auto normal = new QPushButton{"NORMAL"};
     auto difficile = new QPushButton{"DIFFICILE"};
     auto personnalise = new QPushButton{"PERSONNALISE"};
-    facile->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;}");
-    normal->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;}");
-    difficile->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;}");
-    personnalise->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;}");
+    facile->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;color:#6C6C6C;}");
+    normal->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;color:#6C6C6C;}");
+    difficile->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;color:#6C6C6C;}");
+    personnalise->setStyleSheet("QPushButton{ background-color:#242424;font-size:15px;height:30px;color:#6C6C6C;}");
     layoutbouton->addWidget(facile);
     layoutbouton->addWidget(normal);
     layoutbouton->addWidget(difficile);
