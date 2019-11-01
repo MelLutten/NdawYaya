@@ -13,11 +13,14 @@ class terrain
     public:
      terrain();
      terrain(int nbdebris, int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2);
+    
      int nbColonne()const;
      int nbLigne()const;
      int nbDebris()const;
      int nbRobot1G()const;
      int nbRobot2G()const;
+     std::vector<std::vector<int>> grille()const;
+    
      void lireTerrain(const std::string&nomFichier);
      void sauverTerrain(const std::string&nomFichier);
      void changerTailleGrille(int taille1, int taille2);
