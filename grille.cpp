@@ -12,15 +12,15 @@ grille::grille(terrain&t,QWidget *parent):QWidget{parent},d_terrain{t}{
 void grille::paintEvent(QPaintEvent *e)
 {
 
-   QPainter painter(this);
+    QPainter painter(this);
     int left = 0;
     int top = 0;
     int width = 50;
     int height = 50;
 
+
     QBrush brush1("#242424", Qt::SolidPattern);
     QBrush brush2("#2F2F2F", Qt::SolidPattern);
-   // QBrush joueur("#5ECABB",Qt::SolidPattern);
     QPen pen1("#242424");
     QPen pen2("#2F2F2F");
 
@@ -40,11 +40,9 @@ void grille::paintEvent(QPaintEvent *e)
                  painter.setPen(pen2);
                  painter.fillRect(r1, brush2);
            }
-            if(d_terrain.grille()[i][j]==1){
+            if(d_terrain.grille()[static_cast<unsigned>(i)][static_cast<unsigned>(j)]==1){
 
-               // painter.fillRect(r1,joueur);
-                painter.setPen(Qt::white);
-                painter.drawEllipse(r1);
+                painter.drawImage(r1,QImage("/Users/Neron/Desktop/joueur.png"));
 
             }
 
@@ -58,5 +56,6 @@ void grille::paintEvent(QPaintEvent *e)
         swap(pen1,pen2);
 
    }
+
 
 }
