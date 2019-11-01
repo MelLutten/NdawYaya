@@ -81,9 +81,10 @@ void personnaliserTerrain::onValider(){
     QString tr2 = editRobot2G->text();
     int nbrobot2G = tr2.toInt();
 
-    if(nbligne*nbcolonne>nbdebris+nbrobot1G+nbrobot2G+1){
 
-          d_terr.changerTailleGrille(nbcolonne,nbligne);
+    if(nbligne*nbcolonne>nbdebris+nbrobot1G+nbrobot2G+1 && nbdebris!=0 && nbrobot1G!=0 && nbrobot2G!=0){
+
+          d_terr.changerTailleGrille(nbligne,nbcolonne);
           d_terr.changerNb(nbdebris,nbrobot1G,nbrobot2G);
 
           d_terr.InitialisationGrille(nbdebris,nbrobot1G,nbrobot2G);
@@ -91,11 +92,14 @@ void personnaliserTerrain::onValider(){
 
     }else{
 
-        QMessageBox msgBox;
+       QMessageBox msgBox;
         msgBox.setText("Votre saisie est fausse, recommencez.");
         msgBox.exec();
 
    }
 
 
+
+
 }
+
