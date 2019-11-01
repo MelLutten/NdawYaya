@@ -42,6 +42,10 @@ int terrain::nbRobot2G()const{
     return d_nbrobotSecondG;
 }
 
+std::vector<std::vector<int>> terrain::grille()const{
+    return d_grille;
+}
+
 void terrain::lireTerrain(const std::string&nomFichier)
 {
     std::ifstream f(nomFichier);
