@@ -81,7 +81,7 @@ void fenetre::OnNormal(){
 }
 
 void fenetre::OnFacile(){
-    d_t.changerTailleGrille(4,4);
+    d_t.changerTailleGrille(5,5);
     d_t.InitialisationGrille(1,1,1);
     d_t.afficheGrille(); //Test affichage console
     vueCreer(d_t);
