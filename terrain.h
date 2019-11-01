@@ -24,6 +24,7 @@ class terrain
      void lireTerrain(const std::string&nomFichier);
      void sauverTerrain(const std::string&nomFichier);
      void changerTailleGrille(int taille1, int taille2);
+     void changerNb(int nbdebris,int nbRobot1G,int nbRobot2G);
      void InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G);
      bool terrainOk();
      void afficheGrille(); // fonction test
