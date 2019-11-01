@@ -62,11 +62,10 @@ void terrain::changerTailleGrille (int taille1, int taille2){
 //Problème avec une valeur à 0 quand il la génère en premier, à corriger
 void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
-    std::vector<int> V;
-    V.resize(5);
-    for(int i=0;i<static_cast<int>(V.size());++i){
-        V[static_cast<unsigned>(i)]=i;
-    }
+
+
+    std::vector<int> V(9);
+    V = { 0,0,0,0,0,0,1,2,3,4 };//0 permettent de mieux espacer le joueurs/robots/débris
 
     int compteurJoueur = 0;
     int compteurRobot1G = 0;
@@ -79,8 +78,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
     for(int i=0;i<d_taille2;++i){
         for(int j=0;j<d_taille1;++j){
 
-            int indice = rand()%static_cast<int>(V.size());
-            int nbalea = V[static_cast<unsigned>(indice)];
+            int indice = rand()%static_cast<int>(V.size()); //génère un indice aléatoire 
+            int nbalea = V[static_cast<unsigned>(indice)]; //prend valeur de l'indice alétaoire
 
             d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)] = nbalea;
 
@@ -90,25 +89,32 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
             if(nbalea==3){++compteurRobot2G;}
             if(nbalea==4){++compteurDebris;}
 
-
+            //suppression des cases contenant 0 dans le tableau V (case vide)
             if(compteurZero==(d_taille1*d_taille2)-(nbdebris+nbRobot1G+nbRobot2G+1)){
 
-                for(int g=0;g<static_cast<int>(V.size());++g){
+                int v = 6;
+                while(v>0){
 
-                    if(V[static_cast<unsigned>(g)]==0){
-                        for(int r=g;r<static_cast<int>(V.size());++r){
+                    for(int g=0;g<static_cast<int>(V.size());++g){
 
-                                 V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+                        if(V[static_cast<unsigned>(g)]==0){
+                            for(int r=g;r<static_cast<int>(V.size());++r){
 
+                                     V[static_cast<unsigned>(r)]=V[static_cast<unsigned>(r+1)];
+
+                            }
                         }
                     }
+
+                    V.resize(V.size()-1);
+                    --v;
                 }
 
-                 V.resize(V.size()-1);
+
                  compteurZero = ((d_taille1*d_taille2)-(nbdebris+nbRobot1G+nbRobot2G+1))+1;
             }
 
-
+            //suppression de la case contenant 2 dans le tableau V (Robot1G)
             if(compteurRobot1G==nbRobot1G){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -124,6 +130,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
                  V.resize(V.size()-1);
                  compteurRobot1G = nbRobot1G+1;
             }
+            
+            //suppression de la case contenant 3 dans le tableau V (Robot2G)
             if(compteurRobot2G==nbRobot2G){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -141,6 +149,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 
             }
+            
+            //suppression de la case contenant 4 dans le tableau V (Debris)
             if(compteurDebris==nbdebris){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -157,7 +167,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
                  compteurDebris = nbdebris+1;
 
             }
-
+            
+            //suppression de la case contenant 1 dans le tableau V (Joueur)
             if(compteurJoueur==1){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -179,8 +190,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
         }
     }
 
-}
 
+}
 
 bool terrain::terrainOk(){
 
