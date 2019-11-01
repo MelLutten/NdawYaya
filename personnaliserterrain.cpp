@@ -80,8 +80,11 @@ void personnaliserTerrain::onValider(){
     int nbrobot1G = tr1.toInt();
     QString tr2 = editRobot2G->text();
     int nbrobot2G = tr2.toInt();
-    if(d_terr.terrainOk()){
-     d_terr.changerTailleGrille(nbcolonne,nbligne);
+    
+    d_terr.changerTailleGrille(nbcolonne,nbligne);
+    d_terr.changerNb(nbdebris,nbrobot1G,nbrobot2G);
+
+    if(d_terr.terrainOk()){   
      d_terr.InitialisationGrille(nbdebris,nbrobot1G,nbrobot2G);
     }
     close();
