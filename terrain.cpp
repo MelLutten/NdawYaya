@@ -1,12 +1,12 @@
 #include "terrain.h"
 
-terrain::terrain():d_nbdebris{0},d_nbrobotFirstG{0},d_nbrobotSecondG{0},d_taille1{0},d_taille2{0}
+terrain::terrain():d_nbdebris{0},d_nbrobotFirstG{0},d_nbrobotSecondG{0},d_nbligne{0},d_nbcolonne{0}
 {}
 
-terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_taille1{taille1},d_taille2{taille2}
+terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int nbligne, int nbcolonne):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_nbligne{nbligne},d_nbcolonne{nbcolonne}
 {
     if(terrainOk()){
-         d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
+         d_grille.resize(static_cast<unsigned>(d_nbligne), std::vector<int>(static_cast<unsigned>(d_nbcolonne)));
          InitialisationGrille(d_nbdebris,d_nbrobotFirstG,d_nbrobotSecondG);
          sauverTerrain("/Users/Neron/Desktop/premiereSauvegarde.txt");
     }
@@ -15,17 +15,17 @@ terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int taille1
 void terrain::sauverTerrain(const std::string&nomFichier){
 
     std::ofstream f (nomFichier, std::ofstream::out);
-    f << d_nbdebris << "," << d_nbrobotFirstG << "," << d_nbrobotSecondG << "," << d_taille1 << "," << d_taille2;
+    f << d_nbdebris << "," << d_nbrobotFirstG << "," << d_nbrobotSecondG << "," << d_nbligne << "," << d_nbcolonne;
     f.close();
 
 }
 
 int terrain::nbColonne()const{
-    return d_taille1;
+    return d_nbcolonne;
 }
 
 int terrain::nbLigne()const{
-    return d_taille2;
+    return d_nbligne;
 }
 
 int terrain::nbDebris()const{
@@ -45,19 +45,22 @@ std::vector<std::vector<int>> terrain::grille()const{
     return d_grille;
 }
 
+
 void terrain::lireTerrain(const std::string&nomFichier)
 {
     std::ifstream f(nomFichier);
     char c;
-    f >> d_nbdebris >> c >> d_nbrobotFirstG >> c >> d_nbrobotSecondG >> c >> d_taille1 >> c >> d_taille2;
+    f >> d_nbdebris >> c >> d_nbrobotFirstG >> c >> d_nbrobotSecondG >> c >> d_nbligne >> c >> d_nbcolonne;
 }
 
-void terrain::changerTailleGrille (int taille1, int taille2){
+void terrain::changerTailleGrille (int nbligne, int nbcolonne){
 
- d_taille1 = taille1;
- d_taille2 = taille2;
- d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
-    
+ d_nbligne = nbligne;
+ d_nbcolonne = nbcolonne;
+ d_grille.resize(static_cast<unsigned>(d_nbligne), std::vector<int>(static_cast<unsigned>(d_nbcolonne)));
+
+
+
 }
 
 void terrain::changerNb(int nbdebris,int nbRobot1G,int nbRobot2G){
@@ -72,9 +75,8 @@ void terrain::changerNb(int nbdebris,int nbRobot1G,int nbRobot2G){
 void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 
-
     std::vector<int> V(9);
-    V = { 0,0,0,0,0,0,1,2,3,4 };//0 permettent de mieux espacer le joueurs/robots/débris
+    V = { 0,0,0,0,0,0,1,2,3,4 };
 
     int compteurJoueur = 0;
     int compteurRobot1G = 0;
@@ -84,11 +86,11 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
     srand(time(NULL));
 
-    for(int i=0;i<d_taille2;++i){
-        for(int j=0;j<d_taille1;++j){
+    for(int i=0;i<d_nbligne;++i){
+        for(int j=0;j<d_nbcolonne;++j){
 
-            int indice = rand()%static_cast<int>(V.size()); //génère un indice aléatoire 
-            int nbalea = V[static_cast<unsigned>(indice)]; //prend valeur de l'indice alétaoire
+            int indice = rand()%static_cast<int>(V.size());
+            int nbalea = V[static_cast<unsigned>(indice)];
 
             d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)] = nbalea;
 
@@ -98,8 +100,8 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
             if(nbalea==3){++compteurRobot2G;}
             if(nbalea==4){++compteurDebris;}
 
-            //suppression des cases contenant 0 dans le tableau V (case vide)
-            if(compteurZero==(d_taille1*d_taille2)-(nbdebris+nbRobot1G+nbRobot2G+1)){
+
+            if(compteurZero==(d_nbligne*d_nbcolonne)-(nbdebris+nbRobot1G+nbRobot2G+1)){
 
                 int v = 6;
                 while(v>0){
@@ -120,10 +122,10 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
                 }
 
 
-                 compteurZero = ((d_taille1*d_taille2)-(nbdebris+nbRobot1G+nbRobot2G+1))+1;
+                 compteurZero = ((d_nbligne*d_nbcolonne)-(nbdebris+nbRobot1G+nbRobot2G+1))+1;
             }
 
-            //suppression de la case contenant 2 dans le tableau V (Robot1G)
+
             if(compteurRobot1G==nbRobot1G){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -139,8 +141,6 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
                  V.resize(V.size()-1);
                  compteurRobot1G = nbRobot1G+1;
             }
-            
-            //suppression de la case contenant 3 dans le tableau V (Robot2G)
             if(compteurRobot2G==nbRobot2G){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -158,8 +158,6 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 
             }
-            
-            //suppression de la case contenant 4 dans le tableau V (Debris)
             if(compteurDebris==nbdebris){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -176,8 +174,7 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
                  compteurDebris = nbdebris+1;
 
             }
-            
-            //suppression de la case contenant 1 dans le tableau V (Joueur)
+
             if(compteurJoueur==1){
 
                 for(int g=0;g<static_cast<int>(V.size());++g){
@@ -202,9 +199,10 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 }
 
+
 bool terrain::terrainOk(){
 
-    if(d_taille1*d_taille2>d_nbdebris+d_nbrobotFirstG+d_nbrobotSecondG+1 && d_taille1==d_taille2){
+    if(d_nbligne*d_nbcolonne>d_nbdebris+d_nbrobotFirstG+d_nbrobotSecondG+1){
         return true;
     }else{
         return false;
@@ -221,15 +219,16 @@ bool terrain::terrainOk(){
 void terrain::afficheGrille(){
 
     if(terrainOk()){
-        for(int i=0;i<d_taille2;++i){
-            for(int j=0;j<d_taille1;++j){
+        for(int i=0;i<d_nbligne;++i){
+            for(int j=0;j<d_nbcolonne;++j){
                 std::cout<<d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)]<<"|";
             }
             std::cout<<std::endl;
         }
+        std::cout<<std::endl;
     }else{
         std::cout<<"T'as fait de la merde, recommence";
-    }
+   }
 
 }
 
