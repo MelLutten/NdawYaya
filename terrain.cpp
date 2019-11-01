@@ -57,8 +57,14 @@ void terrain::changerTailleGrille (int taille1, int taille2){
  d_taille1 = taille1;
  d_taille2 = taille2;
  d_grille.resize(static_cast<unsigned>(d_taille1), std::vector<int>(static_cast<unsigned>(d_taille2)));
+    
+}
 
+void terrain::changerNb(int nbdebris,int nbRobot1G,int nbRobot2G){
 
+    d_nbdebris = nbdebris;
+    d_nbrobotFirstG = nbRobot1G;
+    d_nbrobotSecondG = nbRobot2G;
 
 }
 
