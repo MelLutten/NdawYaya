@@ -1,8 +1,7 @@
 #include "terrain.h"
 
-terrain::terrain(){
-
-}
+terrain::terrain():d_nbdebris{0},d_nbrobotFirstG{0},d_nbrobotSecondG{0},d_taille1{0},d_taille2{0}
+{}
 
 terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int taille1, int taille2):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_taille1{taille1},d_taille2{taille2}
 {
