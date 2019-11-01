@@ -31,9 +31,11 @@ void grille::paintEvent(QPaintEvent *e)
             }else{
                  painter.fillRect(r1, brush2);
            }
+            if(d_terrain.grille()[i][j]==1){
 
+                painter.fillRect(r1,joueur);
 
-
+            }
 
 
             painter.drawRect(r1);
