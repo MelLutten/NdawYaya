@@ -204,7 +204,7 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 bool terrain::terrainOk(){
 
-    if(d_taille1*d_taille2>d_nbdebris+d_nbrobotFirstG+d_nbrobotSecondG+1){
+    if(d_taille1*d_taille2>d_nbdebris+d_nbrobotFirstG+d_nbrobotSecondG+1 && d_taille1==d_taille2){
         return true;
     }else{
         return false;
