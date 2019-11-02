@@ -36,8 +36,8 @@ class terrain
      int d_nbligne;
      int d_nbcolonne;
      std::vector<std::vector<int>> d_grille; // 0 = vide, 1 = joueur, 2 = robot1G, 3 = robot2G, 4 = debris
-     std::vector<robot> d_robot1G;
-     std::vector<robot> d_robot2G;
+     std::vector<robot*> d_robot1G;
+     std::vector<robot*> d_robot2G;
 
 
 };
