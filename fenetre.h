@@ -29,6 +29,9 @@ private slots :
     void OnFacile();
     void OnNormal();
     void OnPerso();
+    void OnQuit();
+    void OnCharge();
+    void OnSave();
 };
 
 #endif // FENETRE_H
