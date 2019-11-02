@@ -19,7 +19,7 @@ void fenetre::vueCreer(terrain&t){
 
     //Terrain
     d_grille = new grille{t};
-    d_grille->setFixedHeight(500);
+    d_grille->setFixedHeight(d_t.nbLigne()*61);
 
     //Titre
     auto label = new QLabel{this};
