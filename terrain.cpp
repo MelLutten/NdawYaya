@@ -77,6 +77,8 @@ void terrain::changerNb(int nbdebris,int nbRobot1G,int nbRobot2G){
     d_nbdebris = nbdebris;
     d_nbrobotFirstG = nbRobot1G;
     d_nbrobotSecondG = nbRobot2G;
+    d_robot1G.resize(static_cast<unsigned>(nbRobot1G));
+    d_robot2G.resize(static_cast<unsigned>(nbRobot2G));
 
 }
 
