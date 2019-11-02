@@ -1,14 +1,19 @@
 #include "terrain.h"
 
-terrain::terrain():d_nbdebris{0},d_nbrobotFirstG{0},d_nbrobotSecondG{0},d_nbligne{0},d_nbcolonne{0}
+terrain::terrain():d_nbdebris{0},d_joueur{},d_nbrobotFirstG{0},d_nbrobotSecondG{0},d_nbligne{0},d_nbcolonne{0}
 {}
 
-terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int nbligne, int nbcolonne):d_nbdebris{nbdebris},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_nbligne{nbligne},d_nbcolonne{nbcolonne}
+terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int nbligne, int nbcolonne, joueur&j):d_nbdebris{nbdebris},d_joueur{j},d_nbrobotFirstG{nbrobotfirstG},d_nbrobotSecondG{nbrobotsecondG},d_nbligne{nbligne},d_nbcolonne{nbcolonne}
 {
     if(terrainOk()){
+
+         d_robot1G.resize(static_cast<unsigned>(nbrobotfirstG));
+         d_robot2G.resize(static_cast<unsigned>(nbrobotsecondG));
+
          d_grille.resize(static_cast<unsigned>(d_nbligne), std::vector<int>(static_cast<unsigned>(d_nbcolonne)));
          InitialisationGrille(d_nbdebris,d_nbrobotFirstG,d_nbrobotSecondG);
          sauverTerrain("/Users/Neron/Desktop/premiereSauvegarde.txt");
+
     }
 }
 
@@ -39,6 +44,10 @@ int terrain::nbRobot1G()const{
 
 int terrain::nbRobot2G()const{
     return d_nbrobotSecondG;
+}
+
+joueur terrain::Joueur(){
+    return d_joueur;
 }
 
 std::vector<std::vector<int>> terrain::grille()const{
@@ -95,7 +104,7 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
             d_grille[static_cast<unsigned>(i)][static_cast<unsigned>(j)] = nbalea;
 
             if(nbalea==0){++compteurZero;}
-            if(nbalea==1){++compteurJoueur;}
+            if(nbalea==1){d_joueur.deplacerJoueur(j,i);++compteurJoueur;}
             if(nbalea==2){++compteurRobot1G;}
             if(nbalea==3){++compteurRobot2G;}
             if(nbalea==4){++compteurDebris;}
@@ -199,6 +208,10 @@ void terrain::InitialisationGrille(int nbdebris, int nbRobot1G, int nbRobot2G){
 
 }
 
+void terrain::ChangerJoueur(joueur&j){
+    d_joueur=j;
+}
+
 
 bool terrain::terrainOk(){
 
@@ -232,5 +245,8 @@ void terrain::afficheGrille(){
 
 }
 
+void terrain::afficherPositionJoueur(){
+    std::cout<<d_joueur.positionJoueur().numLigne()<<";"<<d_joueur.positionJoueur().numColonne()<<std::endl;
+}
 
  
