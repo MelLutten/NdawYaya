@@ -20,7 +20,7 @@ terrain::terrain(int nbdebris,int nbrobotfirstG, int nbrobotsecondG, int nbligne
 void terrain::sauverTerrain(const std::string&nomFichier){
 
     std::ofstream f (nomFichier, std::ofstream::out);
-    f << d_nbdebris << "," << d_nbrobotFirstG << "," << d_nbrobotSecondG << "," << d_nbligne << "," << d_nbcolonne;
+    f << d_joueur << "," << d_nbdebris << "," << d_nbrobotFirstG << "," << d_nbrobotSecondG << "," << d_nbligne << "," << d_nbcolonne;
     f.close();
 
 }
