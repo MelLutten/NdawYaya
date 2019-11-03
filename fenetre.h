@@ -33,6 +33,10 @@ private slots :
     void OnBas();
     void OnDroite();
     void OnGauche();
+    void OnHG();
+    void OnHD();
+    void OnBG();
+    void OnBD();
 };
 
 #endif // FENETRE_H
