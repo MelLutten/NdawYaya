@@ -15,8 +15,8 @@ void grille::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     int left = 0;
     int top = 0;
-    int width = 50;
-    int height = 50;
+    int width = 40;
+    int height = 40;
 
 
     QBrush brush1("#242424", Qt::SolidPattern);
@@ -28,7 +28,7 @@ void grille::paintEvent(QPaintEvent *e)
     for(int i=0;i<d_terrain.nbLigne();++i){
         for(int j=0;j<d_terrain.nbColonne();++j){
 
-            QRect r1(left+81, top, width, height);
+            QRect r1(left+61, top, width, height);
 
             if(j%2==0){
 
@@ -47,11 +47,11 @@ void grille::paintEvent(QPaintEvent *e)
             }
 
             painter.drawRect(r1);
-            left+=61;
+            left+=51;
        }
 
         left = 0;
-        top +=61;
+        top +=51;
         swap(brush1,brush2);
         swap(pen1,pen2);
 
