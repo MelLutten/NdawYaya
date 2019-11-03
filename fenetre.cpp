@@ -14,20 +14,25 @@ void fenetre::vueCreer(terrain&t){
 
 
     setWindowTitle("HI ROBOTS");
+    if(d_t.nbColonne()==0){
+        setFixedWidth(maximumWidth());
+    }else{
+        setFixedWidth(d_t.nbColonne()*51+138);
+    }
 
     setStyleSheet("QMainWindow{background:#353535;}");
 
     //Terrain
     d_grille = new grille{t};
-    d_grille->setFixedHeight(d_t.nbLigne()*61);
+    d_grille->setFixedSize(d_t.nbColonne()*51+138,d_t.nbLigne()*51);
 
     //Titre
     auto label = new QLabel{this};
-    QPixmap *logo = new QPixmap ("/Users/Neron/Desktop/hirobot.png" );
+    QPixmap *logo = new QPixmap ("/Users/Neron/Desktop/hirobot2.png" );
     label->setPixmap(*logo);
 
 
-    label->setFixedSize(maximumWidth(),150);
+    label->setFixedSize(maximumWidth(),100);
     label->setAlignment(Qt::AlignCenter);
 
     //Boutons niveau
@@ -50,22 +55,37 @@ void fenetre::vueCreer(terrain&t){
      connect(normal,&QPushButton::clicked,this,&fenetre::OnNormal);
      connect(facile,&QPushButton::clicked,this,&fenetre::OnFacile);
 
-     //Boutons fermer charger et sauvegarder
-     auto layoutbout = new QHBoxLayout{};
-     auto sauver = new QPushButton{"SAUVEGARDER"};
-     auto charge = new QPushButton{"CHARGER"};
-     auto quit = new QPushButton{"QUITTER"};
-     sauver->setStyleSheet("QPushButton{ background-color:#242424;font-size:11px;height:30px;color:#6C6C6C;}");
-     charge->setStyleSheet("QPushButton{ background-color:#242424;font-size:11px;height:30px;color:#6C6C6C;}");
-     quit->setStyleSheet("QPushButton{ background-color:#242424;font-size:11px;height:30px;color:#6C6C6C;}");
-     personnalise->setStyleSheet("QPushButton{ background-color:#242424;font-size:11px;height:30px;color:#6C6C6C;}");
-     layoutbout->addWidget(sauver);
-     layoutbout->addWidget(charge);
-     layoutbout->addWidget(quit);
+     //Boutons deplacements
 
-     connect(quit,&QPushButton::clicked,this,&fenetre::OnQuit);
-     connect(sauver,&QPushButton::clicked,this,&fenetre::OnSave);
-     connect(charge,&QPushButton::clicked,this,&fenetre::OnCharge);
+     auto layoutboutcote = new QHBoxLayout{};
+     auto layoutbouthaut = new QHBoxLayout{};
+     auto layoutboutbas = new QHBoxLayout{};
+     auto haut = new QPushButton{"⬆"};
+     auto bas = new QPushButton{"⬇"};
+     auto droite = new QPushButton{"➡"};
+     auto gauche = new QPushButton{"⬅"};
+     haut->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     bas->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     droite->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     gauche->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+
+
+     haut->setFixedWidth(50);
+     droite->setFixedWidth(50);
+     gauche->setFixedWidth(50);
+     bas->setFixedWidth(50);
+     layoutbouthaut->addWidget(haut);
+     layoutboutcote->addStretch(1);
+     layoutboutcote->addWidget(gauche);
+     layoutboutcote->addWidget(droite);
+     layoutboutcote->addStretch(1);
+     layoutboutbas->addWidget(bas);
+
+     connect(haut,&QPushButton::clicked,this,&fenetre::OnHaut);
+     connect(bas,&QPushButton::clicked,this,&fenetre::OnBas);
+     connect(droite,&QPushButton::clicked,this,&fenetre::OnDroite);
+     connect(gauche,&QPushButton::clicked,this,&fenetre::OnGauche);
+
 
 
      //Copyright
@@ -86,7 +106,10 @@ void fenetre::vueCreer(terrain&t){
     layout->addWidget(label,Qt::AlignCenter);
     layout->addLayout(layoutbouton);
     layout->addWidget(d_grille,Qt::AlignCenter);
-    layout->addLayout(layoutbout,Qt::AlignCenter);
+    layout->addLayout(layoutbouthaut,Qt::AlignCenter);
+
+    layout->addLayout(layoutboutcote,Qt::AlignCenter);
+    layout->addLayout(layoutboutbas,Qt::AlignCenter);
     layout->addWidget(layoutcopy,Qt::AlignCenter);
 
 
@@ -145,21 +168,38 @@ void fenetre::OnPerso(){
 
 }
 
-void fenetre::OnQuit(){
-    close();
+void fenetre::OnHaut(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne(),d_t.Joueur().positionJoueur().numLigne()-1);
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+    vueCreer(d_t);
 }
 
-void fenetre::OnSave(){
+void fenetre::OnBas(){
 
-    /*std::string nomFichier;
-    std::cout<<"Nom Fichier : ";
-    std::cin>>nomFichier;*/
-    d_t.sauverTerrain("/Users/Neron/Desktop/sauv.txt");
-    QMessageBox sauv;
-    sauv.setText("Fichier sauvegardé !");
-    sauv.exec();
+   d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne(),d_t.Joueur().positionJoueur().numLigne()+1);
+   d_t.afficheGrille(); //Test affichage console
+   d_t.afficherPositionJoueur(); //Test : affichage console
+
+   vueCreer(d_t);
 
 }
-void fenetre::OnCharge(){
+
+void fenetre::OnDroite(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()+1,d_t.Joueur().positionJoueur().numLigne());
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+    vueCreer(d_t);
+
+}
+
+void fenetre::OnGauche(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()-1,d_t.Joueur().positionJoueur().numLigne());
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+    vueCreer(d_t);
 
 }
