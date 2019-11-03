@@ -60,31 +60,70 @@ void fenetre::vueCreer(terrain&t){
      auto layoutboutcote = new QHBoxLayout{};
      auto layoutbouthaut = new QHBoxLayout{};
      auto layoutboutbas = new QHBoxLayout{};
-     auto haut = new QPushButton{"⬆"};
-     auto bas = new QPushButton{"⬇"};
-     auto droite = new QPushButton{"➡"};
-     auto gauche = new QPushButton{"⬅"};
+     auto haut = new QPushButton{"↑"};
+     auto diagoHG = new QPushButton{"↖"};
+     auto diagoHD = new QPushButton{"↗"};
+     auto bas = new QPushButton{"↓"};
+     auto diagoBG = new QPushButton{"↙"};
+     auto diagoBD = new QPushButton{"↘"};
+     auto droite = new QPushButton{"→"};
+     auto gauche = new QPushButton{"←"};
+     auto joueur = new QLabel{"J"};
+
+     joueur->setAlignment(Qt::AlignCenter);
+
+
      haut->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
      bas->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
      droite->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
      gauche->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+
+     diagoHG->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     diagoHD->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     diagoBG->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+     diagoBD->setStyleSheet("QPushButton{ background-color:#242424;font-size:20px;height:30px;color:#6C6C6C;}");
+
+
 
 
      haut->setFixedWidth(50);
      droite->setFixedWidth(50);
      gauche->setFixedWidth(50);
      bas->setFixedWidth(50);
+     diagoHG->setFixedWidth(50);
+     diagoHD->setFixedWidth(50);
+     diagoBG->setFixedWidth(50);
+     diagoBD->setFixedWidth(50);
+     joueur->setFixedWidth(40);
+
+     layoutbouthaut->addStretch(1);
+     layoutbouthaut->addWidget(diagoHG);
      layoutbouthaut->addWidget(haut);
+     layoutbouthaut->addWidget(diagoHD);
+     layoutbouthaut->addStretch(1);
+
      layoutboutcote->addStretch(1);
      layoutboutcote->addWidget(gauche);
+     layoutboutcote->addWidget(joueur);
      layoutboutcote->addWidget(droite);
      layoutboutcote->addStretch(1);
+
+     layoutboutbas->addStretch(1);
+     layoutboutbas->addWidget(diagoBG);
      layoutboutbas->addWidget(bas);
+     layoutboutbas->addWidget(diagoBD);
+     layoutboutbas->addStretch(1);
 
      connect(haut,&QPushButton::clicked,this,&fenetre::OnHaut);
      connect(bas,&QPushButton::clicked,this,&fenetre::OnBas);
      connect(droite,&QPushButton::clicked,this,&fenetre::OnDroite);
      connect(gauche,&QPushButton::clicked,this,&fenetre::OnGauche);
+
+     connect(diagoHG,&QPushButton::clicked,this,&fenetre::OnHG);
+     connect(diagoHD,&QPushButton::clicked,this,&fenetre::OnHD);
+     connect(diagoBG,&QPushButton::clicked,this,&fenetre::OnBG);
+     connect(diagoBD,&QPushButton::clicked,this,&fenetre::OnBD);
+
 
 
 
@@ -200,6 +239,44 @@ void fenetre::OnGauche(){
     d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()-1,d_t.Joueur().positionJoueur().numLigne());
     d_t.afficheGrille(); //Test affichage console
     d_t.afficherPositionJoueur(); //Test : affichage console
+    vueCreer(d_t);
+
+}
+
+void fenetre::OnHG(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()-1,d_t.Joueur().positionJoueur().numLigne()-1);
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+
+    vueCreer(d_t);
+
+}
+
+void fenetre::OnHD(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()+1,d_t.Joueur().positionJoueur().numLigne()-1);
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+
+    vueCreer(d_t);
+
+}
+
+void fenetre::OnBG(){
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()-1,d_t.Joueur().positionJoueur().numLigne()+1);
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+
+    vueCreer(d_t);
+}
+
+void fenetre::OnBD(){
+
+    d_t.changerPosJoueur(d_t.Joueur().positionJoueur().numColonne()+1,d_t.Joueur().positionJoueur().numLigne()+1);
+    d_t.afficheGrille(); //Test affichage console
+    d_t.afficherPositionJoueur(); //Test : affichage console
+
     vueCreer(d_t);
 
 }
